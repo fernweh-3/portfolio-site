@@ -28,11 +28,11 @@ def index():
     except FileNotFoundError:
         abort(404, description="About data not found.")
 
-@app.route('/profile_summary')
-def profile_summary():
+@app.route('/profile')
+def profile():
     try:
-        data = load_json_file('profile_summary.json')
-        return render_template('profile.html', title="Profile", profile_summary=data, url=os.getenv("URL"))
+        profile = load_json_file('profile.json')
+        return render_template('profile.html', title="Profile", profile=profile, url=os.getenv("URL"))
     except FileNotFoundError:
         abort(404, description="Profile summary data not found.")
     
@@ -48,7 +48,7 @@ def map():
 @app.route('/hobbies')
 def hobbies():
     try:
-        data = load_json_file('hobbies.json')
-        return render_template('hobbies.html', title="Hobbies", hobbies=data, url=os.getenv("URL"))
+        hobbies = load_json_file('hobbies.json')
+        return render_template('hobbies.html', title="Hobbies", hobbies=hobbies, url=os.getenv("URL"))
     except FileNotFoundError:
         abort(404, description="Hobbies data not found.")

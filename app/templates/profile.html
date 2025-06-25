@@ -13,7 +13,7 @@
             <div id="collapseExperience" class="accordion-collapse collapse show" aria-labelledby="headingExperience">
                 <div class="accordion-body">
                     <ul class="list-unstyled">
-                        {% for work in profile_summary.work_experiences %}
+                        {% for work in profile.work_experiences %}
                         <li class="mb-3">
                             <strong>{{ work.position }}</strong> at <em>{{ work.company }}</em> ({{ work.start }} – {{ work.end }})
                             <p class="mb-0">{{ work.description }}</p>
@@ -34,7 +34,7 @@
             <div id="collapseEducation" class="accordion-collapse collapse show" aria-labelledby="headingEducation">
                 <div class="accordion-body">
                     <ul class="list-unstyled">
-                        {% for edu in profile_summary.education %}
+                        {% for edu in profile.education %}
                         <li class="mb-3">
                             <strong>{{ edu.degree }}</strong> - {{ edu.institution }} ({{ edu.start }} – {{ edu.end }})
                             <p class="mb-0">{{ edu.details }}</p>
@@ -55,7 +55,7 @@
             <div id="collapseHobbies" class="accordion-collapse collapse show" aria-labelledby="headingHobbies">
                 <div class="accordion-body">
                     <ul>
-                        {% for hobby in profile_summary.hobbies %}
+                        {% for hobby in profile.hobbies %}
                         <li>{{ hobby }}</li>
                         {% endfor %}
                     </ul>
