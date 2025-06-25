@@ -1,7 +1,7 @@
 [
         {
             "title": "Road Trips",
-            "image_src": "./static/img/road_trip.png",
+            "image_src": "road_trip.png",
             "details": [
                 "I like going on road trips with friends, exploring scenic routes, coastal towns, and hidden gems across Ireland.",
                 "Summer is perfect for sunny beach visits and relaxed seaside drives."
@@ -9,7 +9,7 @@
         },
         {
             "title": "Singing in the University Choir",
-            "image_src": "./static/img/chior.png",
+            "image_src": "choir.png",
             "details": [
                 "I enjoy being part of a musical group that performs harmonized choral pieces at events and concerts.",
                 "I attended weekly rehearsals with the choir society and joined performances during major events like Christmas services."
@@ -17,7 +17,7 @@
         },
         {
             "title": "Swimming",
-            "image_src": "./static/img/swimming.png",
+            "image_src": "swimming.png",
             "details": [
                 "I love swimming, but the temperature in Ireland can be quite cold."
             ]

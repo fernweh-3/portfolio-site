@@ -34,7 +34,7 @@ def profile():
         profile = load_json_file('profile.json')
         return render_template('profile.html', title="Profile", profile=profile, url=os.getenv("URL"))
     except FileNotFoundError:
-        abort(404, description="Profile summary data not found.")
+        abort(404, description="Profile data not found.")
     
 @app.route('/map')
 def map():
