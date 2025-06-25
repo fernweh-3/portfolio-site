@@ -37,7 +37,7 @@ def profile():
         abort(404, description="Profile data not found.")
     
 @app.route('/map')
-def map():
+def travel_map():
     try:
         API_KEY = os.getenv("API_KEY")
         places = load_json_file('map.json')
