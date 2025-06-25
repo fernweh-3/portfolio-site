@@ -1,13 +1,14 @@
 {
-    "name": "Firstname Lastname",
+    "current_year": 2025,
+    "name": "Yixing Lei",
     "social_links": [
         {
             "platform": "GitHub",
-            "url": "https://github.com/MLH"
+            "url": "https://github.com/fernweh-3"
         },
         {
             "platform": "LinkedIn",
-            "url": "https://www.linkedin.com/company/major-league-hacking/posts/?feedView=all"
+            "url": "https://www.linkedin.com/in/yixinglei/"
         }
     ]
 }

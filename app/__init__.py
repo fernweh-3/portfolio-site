@@ -22,18 +22,22 @@ def inject_footer_data():
 
 @app.route('/')
 def index():
-    return render_template('index.html', title="MLH Fellow", url=os.getenv("URL"))
-
-@app.route('/profile_summary')
-def profile_summary():
     try:
-        data = load_json_file('profile_summary.json')
-        return render_template('profile_summary.html', title="Profile Summary", profile_summary=data, url=os.getenv("URL"))
+        about = load_json_file('about.json')
+        return render_template('index.html', title="Portfolio Site", about =about, url=os.getenv("URL"))
     except FileNotFoundError:
-        abort(404, description="Profile summary data not found.")
+        abort(404, description="About data not found.")
+
+@app.route('/profile')
+def profile():
+    try:
+        profile = load_json_file('profile.json')
+        return render_template('profile.html', title="Profile", profile=profile, url=os.getenv("URL"))
+    except FileNotFoundError:
+        abort(404, description="Profile data not found.")
     
 @app.route('/map')
-def map():
+def travel_map():
     try:
         API_KEY = os.getenv("API_KEY")
         places = load_json_file('map.json')
@@ -44,7 +48,7 @@ def map():
 @app.route('/hobbies')
 def hobbies():
     try:
-        data = load_json_file('hobbies.json')
-        return render_template('hobbies.html', title="Hobbies", hobbies=data, url=os.getenv("URL"))
+        hobbies = load_json_file('hobbies.json')
+        return render_template('hobbies.html', title="Hobbies", hobbies=hobbies, url=os.getenv("URL"))
     except FileNotFoundError:
         abort(404, description="Hobbies data not found.")

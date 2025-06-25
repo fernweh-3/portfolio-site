@@ -1,20 +1,27 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="hobbies">
-        <h1>Hobbies</h1>
-        {% for hobby in hobbies.hobby_list %}
-        <section>
-            <h2>{{ hobby.title }} </h2>
-            {% if hobby.image_src %}
-            <img src= {{ hobby.image_src }}>
-            {% endif %}
-            <ul>
-                {% for description in hobby.details %}
-                <li>{{ description }}</li>
-                {% endfor %}
-            </ul>
-        </section>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for hobby in hobbies %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if hobby.image_src %}
+                <img src="{{ url_for('static', filename='img/' ~ hobby.image_src) }}" class="card-img-top" alt="{{ hobby.title }} image" style="max-height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title fw-bold">{{ hobby.title }}</h4>
+                    <ul class="ps-3">
+                        {% for description in hobby.details %}
+                        <li class="mb-1">{{ description }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </div>
+
+
+
 {% endblock content %}
