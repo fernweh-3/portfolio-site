@@ -5,15 +5,28 @@
             "company": "Meta & Major League Hacking",
             "start": "Jun 2025",
             "end": "Present",
-            "description": "Created this portfolio =3 with my teammate."
+            "description": "Selected for a highly competitive fellowship program focused on infrastructure engineering. Collaborated with a teammate to build this portfolio project from scratch, applying principles of system design, deployment, and full-stack development."
         },
         {
-            "position": "Community Centre Officer",
-            "company": "Irish Red Cross",
-            "start": "Sep 2023",
-            "end": "Sep 2024",
-            "description": "Helped running Ukraine Community Centre Rathmines dealing with customers."
-        }
+    "position": "Software Development Intern (Fellowship Program)",
+    "company": "University of Galway",
+    "start": "Jun 2025",
+    "end": "Present",
+    "description": "Developed an interoperability service for MATLAB, Python, and Julia using Apache Arrow and DuckDB. Enabled efficient data transfer and scientific computing with a high-performance backend, socket communication, and API design."
+  },{
+    "position": "Software Test Engineer",
+    "company": "Bond Education Group",
+    "start": "Dec 2016",
+    "end": "Nov 2018",
+    "description": "Created and maintained test plans and test cases, conducted manual and automated testing using Python and JMeter, and integrated tests into the CI/CD process to reduce test time by 75%."
+  },
+  {
+    "position": "Financial Planning Consultant",
+    "company": "Prudential Hong Kong",
+    "start": "Mar 2016",
+    "end": "May 2018",
+    "description": "Provided tailored financial planning services to clients. Maintained a 95% client retention rate through consistent service and up-to-date knowledge of insurance products and market trends."
+  }
     ],
     "education": [
         {
@@ -32,8 +45,8 @@
         }
     ],
     "hobbies": [
-        "Example hobby one",
-        "Example hobby two",
-        "Another sample interest"
+        "Swimming",
+        "Choir Singing",
+        "Road Trips"
     ]
 }

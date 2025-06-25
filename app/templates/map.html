@@ -1,19 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="map">
-        <section>
-            <h3>My Travel Map</h3>
-            <p>Here is a map with all the places I have visited. Click on the markers to see the place names.</p>
-            <p>Note: The map is centered on Ireland, but you can zoom in and out to see the markers for each place.</p>
-            <div id="map"></div>
-            <!-- Render Jinja variables into JavaScript -->
-            <script>
-                const positions = {{ places| tojson}};
-                const API_KEY = "{{ API_KEY }}";
-            </script>
-            <!-- use the variables defined above to render the map -->
-            <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-        </section>
+<section>
+    <h4 class="mb-4 fw-bold">My Travel Map</h4>
+    <p>Click on the markers to see the place names. I’ve marked all the destinations I’ve visited so far – and the list keeps growing!</p>
+    <div id="map" class="border rounded shadow-sm mb-4" style="height: 400px; width: 100%;"></div>
+
+    <div class="alert alert-info" role="alert">
+        <strong>Note:</strong> The map is centered on Ireland. You can zoom in and out to explore markers for each place I’ve visited.
     </div>
+
+    
+
+    <script>
+        const positions = {{ places | tojson }};
+        const API_KEY = "{{ API_KEY }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+</section>
 {% endblock content %}

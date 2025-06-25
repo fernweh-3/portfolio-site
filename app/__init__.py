@@ -22,13 +22,17 @@ def inject_footer_data():
 
 @app.route('/')
 def index():
-    return render_template('index.html', title="MLH Fellow", url=os.getenv("URL"))
+    try:
+        about = load_json_file('about.json')
+        return render_template('index.html', title="Portfolio Site", about =about, url=os.getenv("URL"))
+    except FileNotFoundError:
+        abort(404, description="About data not found.")
 
 @app.route('/profile_summary')
 def profile_summary():
     try:
         data = load_json_file('profile_summary.json')
-        return render_template('profile_summary.html', title="Profile Summary", profile_summary=data, url=os.getenv("URL"))
+        return render_template('profile.html', title="Profile", profile_summary=data, url=os.getenv("URL"))
     except FileNotFoundError:
         abort(404, description="Profile summary data not found.")
     

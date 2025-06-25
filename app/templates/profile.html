@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="accordion mb-2" id="profileAccordion">
+
+        <!-- Work Experience -->
+        <div class="accordion-item ">
+            <h2 class="accordion-header" id="headingExperience">
+                <button class="accordion-button fs-4 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExperience" aria-expanded="true" aria-controls="collapseExperience">
+                    Work Experience
+                </button>
+            </h2>
+            <div id="collapseExperience" class="accordion-collapse collapse show" aria-labelledby="headingExperience">
+                <div class="accordion-body">
+                    <ul class="list-unstyled">
+                        {% for work in profile_summary.work_experiences %}
+                        <li class="mb-3">
+                            <strong>{{ work.position }}</strong> at <em>{{ work.company }}</em> ({{ work.start }} – {{ work.end }})
+                            <p class="mb-0">{{ work.description }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEducation">
+                <button class="accordion-button fs-4 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEducation" aria-expanded="true" aria-controls="collapseEducation">
+                    Education
+                </button>
+            </h2>
+            <div id="collapseEducation" class="accordion-collapse collapse show" aria-labelledby="headingEducation">
+                <div class="accordion-body">
+                    <ul class="list-unstyled">
+                        {% for edu in profile_summary.education %}
+                        <li class="mb-3">
+                            <strong>{{ edu.degree }}</strong> - {{ edu.institution }} ({{ edu.start }} – {{ edu.end }})
+                            <p class="mb-0">{{ edu.details }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hobbies -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingHobbies">
+                <button class="accordion-button fs-4 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHobbies" aria-expanded="true" aria-controls="collapseHobbies">
+                    Hobbies
+                </button>
+            </h2>
+            <div id="collapseHobbies" class="accordion-collapse collapse show" aria-labelledby="headingHobbies">
+                <div class="accordion-body">
+                    <ul>
+                        {% for hobby in profile_summary.hobbies %}
+                        <li>{{ hobby }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

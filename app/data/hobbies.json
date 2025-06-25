@@ -1,6 +1,4 @@
-{
-    "name": "Firstname Lastname",
-    "hobby_list": [
+[
         {
             "title": "Road Trips",
             "image_src": "./static/img/road_trip.png",
@@ -19,19 +17,9 @@
         },
         {
             "title": "Swimming",
+            "image_src": "./static/img/swimming.png",
             "details": [
                 "I love swimming, but the temperature in Ireland can be quite cold."
             ]
         }
-    ],
-    "social_links": [
-        {
-            "platform": "GitHub",
-            "url": "https://github.com/MLH"
-        },
-        {
-            "platform": "LinkedIn",
-            "url": "https://www.linkedin.com/company/major-league-hacking/posts/?feedView=all"
-        }
     ]
-}

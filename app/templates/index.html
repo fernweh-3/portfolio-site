@@ -1,18 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="profile">
-        <div id="profile-picture" class="profile-picture">
-            <img src="./static/img/avatar.jpg">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='img/avatar.png') }}" class="img-fluid rounded-circle shadow" alt="Profile Picture" style="max-width: 200px;">
         </div>
-        <h1>{{ title }}</h1>
+        <div class="col-md-8 align-self-center text-center text-md-start">
+            <h2 class="fw-bold">{{ about.name }}</h2>
+        </div>
     </div>
-    <section class="about">
-        <h1>About Me</h1>
-        <p>I am currently pursuing a degree in the Trinity College Dublin, where I am learning about computer science and software engineering.
-        <p>I transfered to TCD from Kyiv Polytechnic University where I have developed proficiency in Python, C, MySQL and I am eager to learn more and apply my skills to real-world problems and projects.</p>
-        <p>I am a motivated, adaptable, and collaborative professional who values learning, innovation, and diversity.</p>
-        <p><br>I am also a volunteer at Ukrainian Action in Ireland, where I help to promote the culture, language, and heritage of Ukraine among the Irish society and support Ukraine and its people during the war.</p>
-        <p>I am passionate about social justice, human rights, and intercultural exchange, and I aim to use my skills and knowledge to make a positive difference in the world.</p>
-    </section>
+
+    <div class="card shadow-sm mb-2s">
+        <div class="card-body">
+            <h4 class="card-title mb-4 fw-bold">About Me</h4>
+            {% for paragraph in about.paragraphs %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
+        </div>
+    </div>
 {% endblock content %}
