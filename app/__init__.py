@@ -19,8 +19,6 @@ mydb = MySQLDatabase(
     use_unicode=True
 )
 
-print(mydb)
-
 class TimelinePost(Model):
     name = CharField()
     email = CharField()
@@ -34,7 +32,7 @@ mydb.connect()
 mydb.create_tables([TimelinePost], safe=True)
 
 @app.route('/api/timeline_post', methods=['POST'])
-def post_time_line_post():
+def create_time_line_post():
     name = request.form['name']
     email = request.form['email']
     content = request.form['content']
@@ -56,6 +54,16 @@ def delete_time_line_post(post_id):
         return {'status': 'success', 'message': 'Post deleted successfully.'}
     except TimelinePost.DoesNotExist:
         abort(404, description="Post not found.")
+
+@app.route('/timeline')
+def timeline():
+    try:
+        timeline_posts = [model_to_dict(post) for post in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
+        print(timeline_posts)
+        return render_template('timeline.html', title="Timeline", timeline_posts=timeline_posts, url=os.getenv("URL"))
+    except Exception as e:
+        abort(500, description=f"An error occurred while fetching timeline posts: {str(e)}")
+
 
 def load_json_file(filename):
     path = os.path.join(app.root_path, 'data', filename)

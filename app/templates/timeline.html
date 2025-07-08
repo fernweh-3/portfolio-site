@@ -1,0 +1,61 @@
+{%extends "layout.html" %}
+
+
+{% block content %}
+
+<!-- need a form to submit content , following by the past posts-->
+<div class="container mt-4">
+    <h4 class="mb-4 fw-bold">Timeline</h4>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form id="timelineForm">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label fw-bold">Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-md">Submit Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4 mb-2">
+    <h4 class="mb-4 fw-bold">Past Posts</h4>
+    <div id="timelinePosts" class="d-flex flex-column gap-3">
+        {% for post in timeline_posts %}
+        <div class="card shadow-sm" id="post-{{ post.id }}">
+            <div class="card-body d-flex align-items-start">
+                <img 
+                    src="https://www.gravatar.com/avatar/?d=identicon" 
+                    data-email="{{ post.email }}" 
+                    alt="Avatar" 
+                    class="rounded-circle me-3 mt-1" 
+                    width="50" height="50">
+                <div class="flex-grow-1">
+                    <h5 class="card-title mb-1">{{ post.name }}</h5>
+                    <small class="text-muted">{{ post.email }}</small>
+                    <p class="card-text mt-2">{{ post.content }}</p>
+                    <small class="text-muted">Posted on {{ post.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </div>
+                <button class="btn btn-outline-danger btn-sm ms-3 delete-post" data-id="{{ post.id }}">Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+
+
+{% endblock content %}
