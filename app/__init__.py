@@ -5,6 +5,7 @@ import json
 from peewee import *
 import datetime
 from playhouse.shortcuts import model_to_dict
+import re
 
 load_dotenv()
 app = Flask(__name__)
@@ -36,9 +37,19 @@ mydb.create_tables([TimelinePost], safe=True)
 
 @app.route('/api/timeline_post', methods=['POST'])
 def create_time_line_post():
-    name = request.form['name']
-    email = request.form['email']
-    content = request.form['content']
+    name = request.form.get('name', '')
+    email = request.form.get('email', '')
+    content = request.form.get('content', '')
+
+    # Validate input
+    if not name:
+        return "Invalid name", 400
+    if not email or not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
+        return "Invalid email", 400
+    if not content:
+        return "Invalid content", 400
+
+
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
      
     return model_to_dict(timeline_post)
