@@ -73,7 +73,6 @@ def delete_time_line_post(post_id):
 def timeline():
     try:
         timeline_posts = [model_to_dict(post) for post in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
-        print(timeline_posts)
         return render_template('timeline.html', title="Timeline", timeline_posts=timeline_posts, url=os.getenv("URL"))
     except Exception as e:
         abort(500, description=f"An error occurred while fetching timeline posts: {str(e)}")
