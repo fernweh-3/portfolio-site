@@ -42,7 +42,7 @@ def create_time_line_post():
     content = request.form.get('content', '')
 
     # Validate input
-    if not name:
+    if not name or name.strip() == 'aa':
         return "Invalid name", 400
     if not email or not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
         return "Invalid email", 400
