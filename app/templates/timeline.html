@@ -34,7 +34,7 @@
     <div id="timelinePosts" class="d-flex flex-column gap-3">
         {% for post in timeline_posts %}
         <div class="card shadow-sm" id="post-{{ post.id }}">
-            <div class="card-body d-flex align-items-start">
+            <div class="card-body d-flex align-items-start flex-wrap">
                 <img 
                     src="https://www.gravatar.com/avatar/?d=identicon" 
                     data-email="{{ post.email }}" 
@@ -42,12 +42,14 @@
                     class="rounded-circle me-3 mt-1" 
                     width="50" height="50">
                 <div class="flex-grow-1">
-                    <h5 class="card-title mb-1">{{ post.name }}</h5>
-                    <small class="text-muted">{{ post.email }}</small>
-                    <p class="card-text mt-2">{{ post.content }}</p>
-                    <small class="text-muted">Posted on {{ post.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                    <h5 class="card-title mb-1 text-break">{{ post.name }}</h5>
+                    <small class="text-muted text-break">{{ post.email }}</small>
+                    <p class="card-text mt-2 text-break">{{ post.content }}</p>
+                    <small class="text-muted text-break">Posted on {{ post.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
                 </div>
-                <button class="btn btn-outline-danger btn-sm ms-3 delete-post" data-id="{{ post.id }}">Delete</button>
+                <div class="ms-auto mt-2">
+                    <button class="btn btn-outline-danger btn-sm delete-post" data-id="{{ post.id }}">Delete</button>
+                </div>
             </div>
         </div>
         {% endfor %}
