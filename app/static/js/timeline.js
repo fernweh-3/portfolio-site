@@ -68,19 +68,34 @@ form.addEventListener('submit', function(e) {
     method: 'POST',
     body: payload,
     })
-    .then(res => res.json())
+    .then(async res => {
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`${errorText}`);
+        }
+
+        return res.json();
+    })
     .then(data => {
         if (!data || !data.id) {
             alert("Failed to create post. Please try again.");
             return;
         }
-        submitBtn.disabled = false; // Re-enable the button
-        submitBtn.textContent = 'Submit'; // Reset button text
 
         let newPost = createPostCard(data);
         timelinePosts.prepend(newPost);
         form.reset(); // Reset the form after submission
     })
+    .catch(err => {
+        if (!document.getElementById('errorModal').classList.contains('show')) {
+            showErrorModal(err.message);
+        }
+    })
+    .finally(() => {
+        // Re-enable the button and reset text in case of error
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+    });
 })
 
 
@@ -96,7 +111,6 @@ document.addEventListener('click', function (e) {
         .then(res => {
             if (res.ok) {
                 const postElement = document.getElementById(`post-${postId}`);
-                console.log("Post deleted:", postElement);
                 if (postElement) {
                     postElement.remove();
                 }
@@ -112,3 +126,10 @@ document.addEventListener('click', function (e) {
 });
 
 
+function showErrorModal(message) {
+    const modalBody = document.getElementById('errorModalBody');
+    modalBody.textContent = message;
+
+    const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+    modal.show();
+}
