@@ -3,9 +3,8 @@
 # fetch the latest git repo
 git fetch && git reset origin/main --hard
 
-# install dependencies
-source .venv/bin/activate
-pip install -r requirements.txt
+# stop and remove the existing containers
+docker compose -f docker-compose.prod.yml down
 
-# restart the systemd service
-systemctl restart myportfolio
+# build and start the containers
+docker compose -f docker-compose.prod.yml up -d --build
