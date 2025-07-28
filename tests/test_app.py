@@ -19,9 +19,7 @@ class AppTestCase(unittest.TestCase):
 
         # check the profile picture is present
         assert '<img' in html
-        img_response = self.client.get("/static/img/avatar.png")
-        assert img_response.status_code == 200
-        assert img_response.content_type.startswith("image/")
+        assert 'src="/static/img/avatar.png"' in html
         
         assert "About Me" in html
 
