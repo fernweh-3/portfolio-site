@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure SSH
-        runs: |
+        run: |
           mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key.pem
           chmod 600 ~/.ssh/deploy_key.pem
