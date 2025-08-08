@@ -15,7 +15,7 @@ class AppTestCase(unittest.TestCase):
         assert response.status_code == 200
         html = response.get_data(as_text=True)
         assert "<title>Portfolio Site</title>" in html
-        assert "Yixing Lei" in html
+        assert "Yixing Lei p" in html
 
         # check the profile picture is present
         assert '<img' in html
