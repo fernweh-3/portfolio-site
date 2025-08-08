@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/git-action
   workflow_dispatch:
 
 jobs:
@@ -72,93 +71,18 @@ jobs:
 
       - name: Deploy Site
         run: |
-          ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy-site.sh && ./redeploy-site_.sh'
+          ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy-site.sh && ./redeploy-site.sh'
 
       - name: Print Out Container Status
         run: |
           ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker compose ps'
 
       - name: Deployment Notification
+        if: success()
         run: |
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"
 
-      - name: Deployment Notification (success)
-        if: success()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ github.sha }}
-          RUN_ID: ${{ github.run_id }}
-          BRANCH: ${{ github.ref_name }}
-          ACTOR: ${{ github.actor }}
-          SERVER_URL: ${{ github.server_url }}
-        run: |
-          COMMIT_URL="$SERVER_URL/$REPO/commit/$SHA"
-          RUN_URL="$SERVER_URL/$REPO/actions/runs/$RUN_ID"
-          SHORT_SHA="${SHA::7}"
-          NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-
-          payload=$(jq -n \
-          --arg commit_url "$COMMIT_URL" \
-          --arg run_url "$RUN_URL" \
-          --arg repo "$REPO" \
-          --arg actor "$ACTOR" \
-          --arg short_sha "$SHORT_SHA" \
-          --arg branch "$BRANCH" \
-          --arg now "$NOW" \
-          '{
-            content: "🚀 Deployment Successful",
-            embeds: [{
-              title: "View Commit",
-              url: $commit_url,
-              description: ("**" + $repo + "** deployed by **" + $actor + "**"),
-              color: 5814783,
-              fields: [
-                { name: "Commit", value: $short_sha, inline: true },
-                { name: "Branch", value: $branch, inline: true },
-                { name: "Workflow Run", value: $run_url }
-              ],
-              timestamp: $now
-            }]
-          }')
-          curl -s -H "Content-Type: application/json" -X POST "$DISCORD_WEBHOOK" -d "$payload"
-
       - name: Deployment Notification (failure)
         if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ github.sha }}
-          RUN_ID: ${{ github.run_id }}
-          BRANCH: ${{ github.ref_name }}
-          ACTOR: ${{ github.actor }}
-          SERVER_URL: ${{ github.server_url }}
         run: |
-          COMMIT_URL="$SERVER_URL/$REPO/commit/$SHA"
-          RUN_URL="$SERVER_URL/$REPO/actions/runs/$RUN_ID"
-          SHORT_SHA="${SHA::7}"
-          NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          payload=$(jq -n \
-            --arg commit_url "$COMMIT_URL" \
-            --arg run_url "$RUN_URL" \
-            --arg repo "$REPO" \
-            --arg actor "$ACTOR" \
-            --arg short_sha "$SHORT_SHA" \
-            --arg branch "$BRANCH" \
-            --arg now "$NOW" \
-            '{
-              content: "❌ Deployment Failed",
-              embeds: [{
-                title: "View Commit",
-                url: $commit_url,
-                description: ("**" + $repo + "** deployment failed (by **" + $actor + "**)"),
-                color: 15548997,
-                fields: [
-                  { name: "Commit", value: $short_sha, inline: true },
-                  { name: "Branch", value: $branch, inline: true },
-                  { name: "Workflow Run", value: $run_url }
-                ],
-                timestamp: $now
-              }]
-            }')
-          curl -fsS -H "Content-Type: application/json" -X POST "$DISCORD_WEBHOOK" -d "$payload"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deployment Failed"
