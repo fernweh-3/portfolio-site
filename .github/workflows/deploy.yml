@@ -72,7 +72,7 @@ jobs:
 
       - name: Deploy Site
         run: |
-          ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy-site.sh && ./redeploy-site.sh'
+          ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy-site.sh && ~/redeploy-site.sh'
 
       - name: Print Out Container Status
         run: |
