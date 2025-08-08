@@ -35,3 +35,56 @@ jobs:
       - name: Deploy Site
         run: |
           ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy-site.sh && ./redeploy-site.sh'
+
+      - name: Print Out Container Status
+        run: |
+          ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker compose ps'
+
+      - name: Deployment Notification
+        run: |
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"
+
+      - name: Notify Discord (success)
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          BRANCH: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          COMMIT_URL="$SERVER_URL/$REPO/commit/$SHA"
+          RUN_URL="$SERVER_URL/$REPO/actions/runs/$RUN_ID"
+          SHORT_SHA="${SHA::7}"
+          NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+          read -r -d '' JSON <<'EOF'
+          {
+            "content": "🚀 Deployment Successful",
+            "embeds": [
+              {
+                "title": "View Commit",
+                "url": "__COMMIT_URL__",
+                "description": "**__REPO__** deployed by **__ACTOR__**",
+                "color": 5814783,
+                "fields": [
+                  { "name": "Commit", "value": "__SHORT_SHA__", "inline": true },
+                  { "name": "Branch", "value": "__BRANCH__", "inline": true },
+                  { "name": "Workflow Run", "value": "__RUN_URL__" }
+                ],
+                "timestamp": "__NOW__"
+              }
+            ]
+          }
+          EOF
+
+          JSON="${JSON/__COMMIT_URL__/$COMMIT_URL}"
+          JSON="${JSON/__RUN_URL__/$RUN_URL}"
+          JSON="${JSON/__SHORT_SHA__/$SHORT_SHA}"
+          JSON="${JSON/__BRANCH__/$BRANCH}"
+          JSON="${JSON/__REPO__/$REPO}"
+          JSON="${JSON/__ACTOR__/$ACTOR}"
+          JSON="${JSON/__NOW__/$NOW}"
+
+          curl -s -H "Content-Type: application/json" -X POST "$DISCORD_WEBHOOK" -d "$JSON"
