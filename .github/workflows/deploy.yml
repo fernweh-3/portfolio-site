@@ -31,3 +31,7 @@ jobs:
       - name: Print Project Directory
         run: |
           ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
+
+      - name: Deploy Site
+        run: |
+          ssh my-vps '~/redeploy-site.sh'
