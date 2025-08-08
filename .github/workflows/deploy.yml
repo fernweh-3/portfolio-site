@@ -60,32 +60,27 @@ jobs:
           SHORT_SHA="${SHA::7}"
           NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
-          read -r -d '' JSON <<'EOF'
-          {
-            "content": "🚀 Deployment Successful",
-            "embeds": [
-              {
-                "title": "View Commit",
-                "url": "__COMMIT_URL__",
-                "description": "**__REPO__** deployed by **__ACTOR__**",
-                "color": 5814783,
-                "fields": [
-                  { "name": "Commit", "value": "__SHORT_SHA__", "inline": true },
-                  { "name": "Branch", "value": "__BRANCH__", "inline": true },
-                  { "name": "Workflow Run", "value": "__RUN_URL__" }
-                ],
-                "timestamp": "__NOW__"
-              }
-            ]
-          }
-          EOF
-
-          JSON="${JSON/__COMMIT_URL__/$COMMIT_URL}"
-          JSON="${JSON/__RUN_URL__/$RUN_URL}"
-          JSON="${JSON/__SHORT_SHA__/$SHORT_SHA}"
-          JSON="${JSON/__BRANCH__/$BRANCH}"
-          JSON="${JSON/__REPO__/$REPO}"
-          JSON="${JSON/__ACTOR__/$ACTOR}"
-          JSON="${JSON/__NOW__/$NOW}"
-
-          curl -s -H "Content-Type: application/json" -X POST "$DISCORD_WEBHOOK" -d "$JSON"
+          payload=$(jq -n \
+          --arg commit_url "$COMMIT_URL" \
+          --arg run_url "$RUN_URL" \
+          --arg repo "$REPO" \
+          --arg actor "$ACTOR" \
+          --arg short_sha "$SHORT_SHA" \
+          --arg branch "$BRANCH" \
+          --arg now "$NOW" \
+          '{
+            content: "🚀 Deployment Successful",
+            embeds: [{
+              title: "View Commit",
+              url: $commit_url,
+              description: ("**" + $repo + "** deployed by **" + $actor + "**"),
+              color: 5814783,
+              fields: [
+                { name: "Commit", value: $short_sha, inline: true },
+                { name: "Branch", value: $branch, inline: true },
+                { name: "Workflow Run", value: $run_url }
+              ],
+              timestamp: $now
+            }]
+          }')
+          curl -s -H "Content-Type: application/json" -X POST "$DISCORD_WEBHOOK" -d "$payload"
