@@ -8,6 +8,11 @@ class AppTestCase(unittest.TestCase):
     def setUp(self):
         self.client = app.test_client()
 
+    def test_health_check(self):
+        response = self.client.get("/health")
+        assert response.status_code == 200
+        assert response.get_data(as_text=True) == "OK"
+
     # home page tests
     def test_home(self):
         response = self.client.get("/")
