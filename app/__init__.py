@@ -77,6 +77,13 @@ def timeline():
     except Exception as e:
         abort(500, description=f"An error occurred while fetching timeline posts: {str(e)}")
 
+@app.route('/health')
+def health_check():
+    try:
+        TimelinePost.raw("SELECT 1").execute()
+        return "OK", 200
+    except Exception as e:
+        return f"ERROR: {str(e)}", 500
 
 def load_json_file(filename):
     path = os.path.join(app.root_path, 'data', filename)
